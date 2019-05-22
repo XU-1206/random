@@ -9,169 +9,101 @@
 <body>
     <div class="box">
         <div class="content">
-            <div>今天你中了吗？^o^</div>
+            <h3>客官, 来两注?</h3>
         </div>
         <div class="button">
-            <input type="button" value="随机一注" onclick="oneNumStr()">
             <input type="button" value="随机五注" onclick="fiveNumStr()">
         </div>
     </div>
 </body>
 <script type="text/javascript">
 
-    // 生成数组
-    function strArr(num) {
-        var number = []
-        for (var i = 0; i < num; i++) {
-            number[i] = i + 1
-        }
-        return number
-    }
+    // // 设定时间，页面慢慢变透明，直到消失
+    // var opacityInterval = setInterval(function () {
+    // // 普通时间转为格林威治时间
+    //     var targetDate = new Date('2019-03-27 23:59:59')
+    //     var currentDate = new Date()
+    // // 一天的毫秒数
+    //     var timeMsec = 1000 * 60 * 60 * 24
+    // // 目标时间距1970年毫秒数
+    //     var time1 = targetDate.getTime()
+    // // 当前时间距1970年毫秒数
+    //     var time2 = currentDate.getTime()
+    // // 剩余的时间毫秒数
+    //     var times = time1 - time2
+    // // 计算出均匀透明度
+    //     var opacityRate = (times / timeMsec).toFixed(2)
+    //     if (opacityRate <= 1 && opacityRate > 0) {
+    //         document.getElementsByClassName("box")[0].style.opacity = opacityRate
+    //         if (opacityRate === 0) {
+    //             clearInterval(opacityInterval)
+    //         }
+    //     }
+    // }, 1000)
 
-    // 删除数组中指定下标值元素，返回新数组
-    Array.prototype.delete = function(index) {
-        var temArray=[]
-        for( var i = 0; i < this.length; i++){
-            if (i !== index) {
-                temArray.push(this[i])
+    // 定义 randomNumber方法, 随机输出数组
+    function randomNumber(num) {
+        // 存放随机数组
+        var randomNumber = []
+        // 定义 strArr方法, 生成数组
+        function strArr(num) {
+            var numberAarry = []
+            for (var i = 0; i < num; i++) {
+                numberAarry[i] = i + 1
             }
+            return numberAarry
         }
-        return temArray
-    }
-
-    // 数组中随机元素方法
-    function randomNum(array) {
-        return array[Math.round(Math.random() * (array.length - 1))]
-    }
-
-    // 35中随机5位，并按从小到大排列
-    function strLeftNumber() {
-        var leftNumber = []
-        var leftNumberCount = strArr(35)
-        if (leftNumber.length === 0) {
-            // 数组里随机抓取一个元素
-            var leftNum1 = randomNum(leftNumberCount)
-            leftNumber.push(leftNum1)
-            // 查找下标值
-            var index1 = leftNumberCount.indexOf(leftNum1)
-            // 将随机抓取的元素从数组中删除，并保存清除元素后的数组
-            var leftNumberCount1 = leftNumberCount.delete(index1)
-            if (leftNumber.length === 1) {
-                var leftNum2 = randomNum(leftNumberCount1)
-                leftNumber.push(leftNum2)
-                var index2 = leftNumberCount1.indexOf(leftNum2)
-                var leftNumberCount2 = leftNumberCount1.delete(index2)
-                if (leftNumber.length === 2) {
-                    var leftNum3 = randomNum(leftNumberCount2)
-                    leftNumber.push(leftNum3)
-                    var index3 = leftNumberCount2.indexOf(leftNum3)
-                    var leftNumberCount3 = leftNumberCount1.delete(index3)
-                    if (leftNumber.length === 3) {
-                        var leftNum4 = randomNum(leftNumberCount3)
-                        leftNumber.push(leftNum4)
-                        var index4 = leftNumberCount1.indexOf(leftNum4)
-                        var leftNumberCount4 = leftNumberCount1.delete(index4)
-                        if (leftNumber.length === 4) {
-                            var leftNum5 = randomNum(leftNumberCount4)
-                            leftNumber.push(leftNum5)
-                            // 小到大排序
-                            leftNumber.sort(function(a, b) {
-                                return a - b
-                            })
-                            // 小于10，前面加0
-                            for (var i = 0; i < leftNumber.length; i++) {
-                                if (leftNumber[i] < 10) {
-                                    leftNumber[i] = '0' + leftNumber[i]
-                                } else {
-                                    leftNumber[i] = String(leftNumber[i])
-                                }
-                            }
-                            return leftNumber
-                        }
-                    }
-                }
+        // 获得数组
+        var numberAarry = strArr(num)
+        // 将数组元素随机排序
+        numberAarry.sort(function () {
+            return 0.5 - Math.random() 
+        })
+        // 判断需要抽取几个数字
+        if (num === 35) {
+            // 从35个数字中抽5个, 做为前区
+            for (var i = 0; i < 5; i++) {
+                randomNumber[i] = numberAarry[i]
             }
         } else {
-            leftNumber = []
-        }
-    }
-
-    // 35中随机2位，并按从小到大排列
-    function strRightNumber() {
-        var rightNumber = []
-        var rightNumberCount = strArr(12)
-        if (rightNumber.length === 0) {
-            var rightNum1 = randomNum(rightNumberCount)
-            rightNumber.push(rightNum1)
-            var index1 = rightNumberCount.indexOf(rightNum1)
-            var rightNumberCount1 = rightNumberCount.delete(index1)
-            if (rightNumber.length === 1) {
-                var rightNum2 = randomNum(rightNumberCount1)
-                rightNumber.push(rightNum2)
-                rightNumber.sort(function(a, b) {
-                    return a - b
-                })
-                for (var i = 0; i < rightNumber.length; i++) {
-                    if (rightNumber[i] < 10) {
-                        rightNumber[i] = '0' + rightNumber[i]
-                    } else {
-                        rightNumber[i] = String(rightNumber[i])
-                    }
-                }
-                return rightNumber
+            // 从12个数字中抽2个, 做为后区
+            for (var i = 0; i < 2; i++) {
+                randomNumber[i] = numberAarry[i]
             }
-        } else {
-            rightNumber = []
         }
-    }
-
-    // 用 oneIsClick 限制用户频繁点击按钮
-    var oneIsClick = true
-    function oneNumStr() {
-        // fiveIsClick为false代表，随机五注的事件还未结束，必须是结束后才能点击随机一注
-        if (oneIsClick && fiveIsClick !== false) {
-            oneIsClick = false
-            var content = document.getElementsByClassName('content')[0]
-            var innerText = content.getElementsByClassName('context')
-            // 先删除已创建的ul及其字节点，再新增
-            var ulNode = content.getElementsByTagName('ul')[0]
-            if (ulNode) {
-                content.removeChild(ulNode)
+        // 从小到大排序
+        randomNumber.sort(function (a, b) {
+            return a - b
+        })
+        // 小于10，前面加0
+        for (var i = 0; i < randomNumber.length; i++) {
+            if (randomNumber[i] < 10) {
+                randomNumber[i] = '0' + randomNumber[i]
+            } else {
+                randomNumber[i] = String(randomNumber[i])
             }
-            var ul = document.createElement('ul')
-            var li = document.createElement('li')
-            li.setAttribute('class','context')
-            ul.appendChild(li)
-            content.appendChild(ul)
-            // 已存在节点，便直接添加内容
-            var context = document.getElementsByClassName('context')[0]
-            var leftNum = strLeftNumber()
-            var rightNum = strRightNumber()
-            // 节点模版，用于给每个球添加样式
-            var spanNode = "<span>" + leftNum[0] + "</span>" + "<span>" + leftNum[1] + "</span>" + "<span>" + leftNum[2] + "</span>"
-                + "<span>" + leftNum[3] + "</span>" + "<span>" + leftNum[4] + "</span>" + "<span>" + rightNum[0] + "</span>" + "<span>" + rightNum[1] + "</span>"
-            context.innerHTML = spanNode
-            // 阻止按钮重复点击，间隔0.5秒
-            setTimeout(function() {  
-                oneIsClick = true
-            }, 500)
         }
+        return randomNumber
     }
 
     // 用 fiveIsClick 限制用户频繁点击按钮
     var fiveIsClick = true
     function fiveNumStr() {
         if (fiveIsClick) {
+            // 设为false, 不可再次点击
             fiveIsClick = false
             var content = document.getElementsByClassName('content')[0]
             var innerText = content.getElementsByClassName('context')
-            // 先删除已创建的ul及其字节点，再新增
             var ulNode = content.getElementsByTagName('ul')[0]
+            // 先删除已创建的ul及其字节点, 再新增
+            // 为什么要删除再添加节点呢, 是因为不增删节点只改变数字虽然渲染更快, 但是区别太小, 失去了动态效果
+            // 当然, 如果你不需要删除再添加节点也行, 以下代码稍改动一下就好了
             if (ulNode) {
                 content.removeChild(ulNode)
             }
-            var ulLength = content.getElementsByTagName('ul').length
             var ul = document.createElement('ul')
+            // 用ul节点长度判断是否存在ul
+            var ulLength = content.getElementsByTagName('ul').length
             // 计时器，每隔0.5秒新增一组
             var index = 0
             var interval = setInterval(function() {
@@ -181,14 +113,18 @@
                     li.setAttribute('class','context')
                     ul.appendChild(li)
                     content.appendChild(ul)
-                    // 遍历li
+                    // 遍历li节点
                     var context = document.getElementsByClassName('context')[index - 1]
-                    var leftNum = strLeftNumber()
-                    var rightNum = strRightNumber()
+                    // 大乐透前区数组
+                    var leftNum = randomNumber(35)
+                    // 大乐透后区数组
+                    var rightNum = randomNumber(12)
+                    // 节点模版，用于给每个球添加样式
                     var spanNode = "<span>" + leftNum[0] + "</span>" + "<span>" + leftNum[1] + "</span>" + "<span>" + leftNum[2] + "</span>"
                         + "<span>" + leftNum[3] + "</span>" + "<span>" + leftNum[4] + "</span>" + "<span>" + rightNum[0] + "</span>" + "<span>" + rightNum[1] + "</span>"
+                    // 节点已添加，再添加spanNode节点模版
                     context.innerHTML = spanNode
-                    // li的数量达到5个，就停止计时器
+                    // li节点数量达到5个，就停止计时器
                     if (index >= 5) {
                         clearInterval(interval)
                     }
@@ -202,52 +138,24 @@
     }
 </script>
 <style>
-    body,ul,li{
+    body,ul,li {
         margin: 0;
         padding: 0;
         list-style: none;
     }
     .box {
         height: 600px;
-        display: flex;
-        flex-direction: column;
         background: rgba(216, 205, 205, 1);
     }
     .content {
-        height: 60%;
+        height: 70%;
         padding-top: 100px;
         text-align: center;
-    }
-    .content div {
-        font-size: 16px;
-        color: rgb(192, 42, 42);
-        margin-bottom: 20px;
-    }
-    .button {
-        display: flex;
-        flex-direction: row;
-        height: 40%;
-        width: 320px;
-        margin: 0 auto;
-    }
-    .button input {
-        width: 150px;
-        height: 40px;
-        line-height: 40px;
-        margin: auto;
-        background: rgba(192, 42, 42, 1);
-        color: #fff;
-        font: normal 400 14px '微软雅黑';
-        border-radius: 5px;
-        outline: none;
-    }
-    .button input::after {
-        border: none;
     }
     .context {
         margin: 20px 0;
     }
-    .context span{
+    .context span {
         display: inline-block;
         width: 30px;
         height: 30px;
@@ -266,6 +174,21 @@
     }
     .context span:nth-child(6),.context span:nth-child(7) {
         background: rgba(47, 40, 153, 1);
+    }
+    .button {
+        width: 100%;
+    }
+    .button input {
+        width: 180px;
+        height: 40px;
+        line-height: 40px;
+        display: block;
+        margin: 0 auto;
+        background: rgba(192, 42, 42, 1);
+        color: #fff;
+        font: normal 400 14px '微软雅黑';
+        border-radius: 5px;
+        outline: none;
     }
 </style>
 </html>
