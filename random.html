@@ -18,10 +18,8 @@
 </body>
 <script type="text/javascript">
 
-    // 定义 randomNumber方法, 随机输出数组
+    // 定义 randomNumber方法, 随机输出数组 
     function randomNumber(num) {
-        // 存放随机数组
-        var randomNumber = []
         // 定义 strArr方法, 生成数组
         function strArr(num) {
             var numberAarry = []
@@ -34,40 +32,24 @@
         var numberAarry = strArr(num)
         // 将数组元素随机排序
         numberAarry.sort(function () {
-            return 0.5 - Math.random() 
-        })
-        // 判断需要抽取几个数字
-        if (num === 35) {
-            // 从35个数字中抽5个, 做为前区
-            for (var i = 0; i < 5; i++) {
-                randomNumber[i] = numberAarry[i]
-            }
-        } else {
-            // 从12个数字中抽2个, 做为后区
-            for (var i = 0; i < 2; i++) {
-                randomNumber[i] = numberAarry[i]
-            }
-        }
-        // 从小到大排序
-        randomNumber.sort(function (a, b) {
-            return a - b
+            return 0.5 - Math.random()
         })
         // 小于10，前面加0
-        for (var i = 0; i < randomNumber.length; i++) {
-            if (randomNumber[i] < 10) {
-                randomNumber[i] = '0' + randomNumber[i]
+        for (var i = 0; i < numberAarry.length; i++) {
+            if (numberAarry[i] < 10) {
+                numberAarry[i] = '0' + numberAarry[i]
             } else {
-                randomNumber[i] = String(randomNumber[i])
+                numberAarry[i] = String(numberAarry[i])
             }
         }
-        return randomNumber
+        return numberAarry
     }
 
     // 用 fiveIsClick 限制用户频繁点击按钮
     var fiveIsClick = true
     function fiveNumStr() {
         if (fiveIsClick) {
-            // 设为false, 不可再次点击
+        	// 设为false, 不可再次点击
             fiveIsClick = false
             var content = document.getElementsByClassName('content')[0]
             var innerText = content.getElementsByClassName('context')
@@ -81,8 +63,8 @@
             var ul = document.createElement('ul')
             // 用ul节点长度判断是否存在ul
             var ulLength = content.getElementsByTagName('ul').length
+            var index = 0 
             // 计时器，每隔0.5秒新增一组
-            var index = 0
             var interval = setInterval(function() {
                 index ++
                 if (ulLength < 1) {
@@ -92,10 +74,21 @@
                     content.appendChild(ul)
                     // 遍历li节点
                     var context = document.getElementsByClassName('context')[index - 1]
+                    // 得到顺序被打乱的前区35个数字数组
+                    var randomLeft = randomNumber(35)
                     // 大乐透前区数组
-                    var leftNum = randomNumber(35)
+                    var leftNum = [randomLeft[0], randomLeft[1], randomLeft[2], randomLeft[3], randomLeft[4]]
+                    // 从小到大排序
+                    leftNum.sort(function (a, b) {
+                        return a - b
+                    })
+                    // 得到顺序被打乱的后区12个数字数组
+                    var randomRight = randomNumber(12)
                     // 大乐透后区数组
-                    var rightNum = randomNumber(12)
+                    var rightNum = [randomRight[0], randomRight[1]]
+                    rightNum.sort(function (a, b) {
+                        return a - b // 从小到大排序
+                    })
                     // 节点模版，用于给每个球添加样式
                     var spanNode = "<span>" + leftNum[0] + "</span>" + "<span>" + leftNum[1] + "</span>" + "<span>" + leftNum[2] + "</span>"
                         + "<span>" + leftNum[3] + "</span>" + "<span>" + leftNum[4] + "</span>" + "<span>" + rightNum[0] + "</span>" + "<span>" + rightNum[1] + "</span>"
